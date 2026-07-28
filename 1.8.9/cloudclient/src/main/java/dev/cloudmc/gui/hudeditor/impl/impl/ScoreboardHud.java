@@ -12,6 +12,7 @@ import dev.cloudmc.gui.hudeditor.HudEditor;
 import dev.cloudmc.gui.hudeditor.impl.HudMod;
 import dev.cloudmc.helpers.render.GLHelper;
 import dev.cloudmc.helpers.render.Helper2D;
+import dev.cloudmc.helpers.ResolutionHelper;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -72,8 +73,14 @@ public class ScoreboardHud extends HudMod {
             displayText = Math.max(displayText, Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(text));
         }
 
+        int newWidth = displayText + 4;
+        int drawX = getX();
+        if (getX() > ResolutionHelper.getWidth() / 2 && getW() > 0) {
+            drawX = getX() + getW() - newWidth;
+            setX(drawX);
+        }
         int y = getY();
-        int x = getX();
+        int x = drawX;
 
         int textHeight = Cloud.INSTANCE.mc.fontRendererObj.FONT_HEIGHT;
 
@@ -120,8 +127,14 @@ public class ScoreboardHud extends HudMod {
             displayText = Math.max(displayText, Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(text));
         }
 
+        int newWidth = displayText + 4;
+        int drawX = getX();
+        if (getX() > ResolutionHelper.getWidth() / 2 && getW() > 0) {
+            drawX = getX() + getW() - newWidth;
+            setX(drawX);
+        }
         int y = getY();
-        int x = getX();
+        int x = drawX;
 
         int textHeight = Cloud.INSTANCE.mc.fontRendererObj.FONT_HEIGHT;
 

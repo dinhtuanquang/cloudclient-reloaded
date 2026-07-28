@@ -69,9 +69,14 @@ public class HudEditor extends GuiScreen {
         addHudMod(new BlockinfoHud("BlockInfo", index, offset));
         addHudMod(new ReachdisplayHud("ReachDisplay", index, offset));
         addHudMod(new DayCounterHud("Day Counter", index, offset));
-        addHudMod(new ScoreboardHud("Scoreboard", index, offset));
         addHudMod(new BossbarHud("Bossbar", index, offset));
         addHudMod(new DirectionHud("Direction", index, offset));
+        
+        // Set Scoreboard to a vanilla-like default position on the right side
+        // If the user already has a config, it will override this.
+        int defaultScoreboardX = ResolutionHelper.getWidth() > 0 ? ResolutionHelper.getWidth() - 150 : 800;
+        int defaultScoreboardY = ResolutionHelper.getHeight() > 0 ? ResolutionHelper.getHeight() / 2 - 50 : 200;
+        addHudMod(new ScoreboardHud("Scoreboard", defaultScoreboardX, defaultScoreboardY));
     }
 
     /**
