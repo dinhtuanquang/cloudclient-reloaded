@@ -26,13 +26,18 @@ public class CpsHud extends HudMod {
     public void renderMod(int mouseX, int mouseY) {
         GLHelper.startScale(getX(), getY(), getSize());
         if (Cloud.INSTANCE.modManager.getMod(getName()).isToggled()) {
+            String text = isRightClick() ? getLeftCPS() + " | " + getRightCPS() : String.valueOf(getLeftCPS());
+            if (!isRemoveText()) {
+                text = "CPS: " + text;
+            }
+
             if (isModern()) {
                 if (isBackground()) {
                     Helper2D.drawRoundedRectangle(getX(), getY(), getW(), getH(), 2, Style.getColor(50).getRGB(), 0);
                 }
                 Cloud.INSTANCE.fontHelper.size20.drawString(
-                        isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS(),
-                        getX() + getW() / 2f - Cloud.INSTANCE.fontHelper.size20.getStringWidth(isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS()) / 2f,
+                        text,
+                        getX() + getW() / 2f - Cloud.INSTANCE.fontHelper.size20.getStringWidth(text) / 2f,
                         getY() + 6,
                         getColor()
                 );
@@ -41,8 +46,8 @@ public class CpsHud extends HudMod {
                     Helper2D.drawRectangle(getX(), getY(), getW(), getH(), Style.getColor(50).getRGB());
                 }
                 Cloud.INSTANCE.mc.fontRendererObj.drawString(
-                        isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS(),
-                        getX() + getW() / 2 - Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS()) / 2,
+                        text,
+                        getX() + getW() / 2 - Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(text) / 2,
                         getY() + 6,
                         getColor()
                 );
@@ -56,13 +61,18 @@ public class CpsHud extends HudMod {
     public void onRender2D(RenderGameOverlayEvent.Pre.Text e) {
         GLHelper.startScale(getX(), getY(), getSize());
         if (Cloud.INSTANCE.modManager.getMod(getName()).isToggled() && !(Cloud.INSTANCE.mc.currentScreen instanceof HudEditor)) {
+            String text = isRightClick() ? getLeftCPS() + " | " + getRightCPS() : String.valueOf(getLeftCPS());
+            if (!isRemoveText()) {
+                text = "CPS: " + text;
+            }
+
             if (isModern()) {
                 if (isBackground()) {
                     Helper2D.drawRoundedRectangle(getX(), getY(), getW(), getH(), 2, 0x50000000, 0);
                 }
                 Cloud.INSTANCE.fontHelper.size20.drawString(
-                        isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS(),
-                        getX() + getW() / 2f - Cloud.INSTANCE.fontHelper.size20.getStringWidth(isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS()) / 2f,
+                        text,
+                        getX() + getW() / 2f - Cloud.INSTANCE.fontHelper.size20.getStringWidth(text) / 2f,
                         getY() + 6,
                         getColor()
                 );
@@ -71,8 +81,8 @@ public class CpsHud extends HudMod {
                     Helper2D.drawRectangle(getX(), getY(), getW(), getH(), 0x50000000);
                 }
                 Cloud.INSTANCE.mc.fontRendererObj.drawString(
-                        isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS(),
-                        getX() + getW() / 2 - Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(isRightClick() ? "CPS: " + getLeftCPS() + " | " + getRightCPS() : "CPS: " + getLeftCPS()) / 2,
+                        text,
+                        getX() + getW() / 2 - Cloud.INSTANCE.mc.fontRendererObj.getStringWidth(text) / 2,
                         getY() + 6,
                         getColor()
                 );
@@ -95,6 +105,10 @@ public class CpsHud extends HudMod {
 
     private boolean isRightClick() {
         return Cloud.INSTANCE.settingManager.getSettingByModAndName(getName(), "Right click").isCheckToggled();
+    }
+
+    private boolean isRemoveText() {
+        return Cloud.INSTANCE.settingManager.getSettingByModAndName(getName(), "Remove Text").isCheckToggled();
     }
 
     private int getLeftCPS() {
