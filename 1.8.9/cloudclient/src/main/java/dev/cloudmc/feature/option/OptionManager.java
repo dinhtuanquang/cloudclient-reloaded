@@ -33,6 +33,10 @@ public class OptionManager {
         addOption(new Option("Rounded Corners", true));
         addOption(new Option("Hit Delay Fix", true));
         addOption(new Option("Fast Chat", true));
+        addOption(new Option("No Block Hit Particles", true));
+        addOption(new Option("Static Enchantment Glint", true));
+        addOption(new Option("Disable Weather", true));
+        addOption(new Option("Fast Dropped Items", true));
 
         addOption(new Option("Controls"));
         addOption(new Option("ModMenu Keybinding", Keyboard.KEY_RSHIFT));
