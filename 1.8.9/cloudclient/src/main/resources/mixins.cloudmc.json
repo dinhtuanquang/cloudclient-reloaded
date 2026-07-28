@@ -20,7 +20,8 @@
     "ModelBipedMixin",
     "RendererLivingEntityMixin",
     "RenderMixin",
-    "EntityFireballMixin"
+    "EntityFireballMixin",
+    "EntityThrowableMixin"
   ],
   "mixins": [
     "GuiUtilsMixin",
