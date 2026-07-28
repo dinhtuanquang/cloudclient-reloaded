@@ -83,4 +83,17 @@ public abstract class EntityRendererMixin {
     public boolean setupCameraTransform(GameSettings instance) {
         return !Cloud.INSTANCE.optionManager.getOptionByName("Minimal View Bobbing").isCheckToggled() && Cloud.INSTANCE.mc.gameSettings.viewBobbing;
     }
+
+    @Redirect(method = "setupCameraTransform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isPotionActive(Lnet/minecraft/potion/Potion;)Z"))
+    public boolean redirectNausea(EntityPlayerSP instance, net.minecraft.potion.Potion potionIn) {
+        if (potionIn == net.minecraft.potion.Potion.confusion) {
+            try {
+                if (Cloud.INSTANCE.optionManager.getOptionByName("Fast Nausea") != null && 
+                    Cloud.INSTANCE.optionManager.getOptionByName("Fast Nausea").isCheckToggled()) {
+                    return false;
+                }
+            } catch (Exception e) {}
+        }
+        return instance.isPotionActive(potionIn);
+    }
 }
