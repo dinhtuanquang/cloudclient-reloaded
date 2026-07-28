@@ -23,9 +23,9 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 
-version = "1.0"
+version = "v1.4.2"
 group= "dev.cloudmc"
-archivesBaseName = "cloudmc"
+archivesBaseName = "cloud"
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
