@@ -5,6 +5,11 @@ This project has now been discontinued and archived. It will no longer recieve u
 # Cloud Client
 Cloud Client is an open source Minecraft PVP Client for 1.7.10 and 1.8.9 using the Forge API.
 
+## Features
+- **Performance Optimizations (FPS Boost & PvP):** Hit Delay Fix (No miss penalty), Fast Chat, No Block Hit Particles, Static Enchantment Glint, Disable Weather, and Fast Dropped Items (2D items).
+- **HUD & Customization:** ModMenu Scrollbar for easier navigation, Scoreboard alignment fixes, and a "Remove Text" toggle for the CPS mod.
+- **CI/CD Integration:** Automatic builds and release deployment via GitHub Actions.
+
 ## Downloading
 - Download the mod from the Releases section here
 - Download the mod using the [Installer](https://github.com/CloudClientDev/cloudinstaller)
