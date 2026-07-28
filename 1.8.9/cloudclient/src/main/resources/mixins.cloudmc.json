@@ -9,10 +9,12 @@
     "GuiIngameMenuMixin",
     "GuiInGameMixin",
     "GuiMainMenuMixin",
+    "GuiNewChatMixin",
     "GuiScreenMixin",
     "ItemRendererMixin",
     "MinecraftMixin",
     "ModelBipedMixin",
+    "RenderEntityItemMixin",
     "RendererLivingEntityMixin",
     "RenderMixin"
   ],
