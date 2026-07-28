@@ -9,6 +9,7 @@
     "EffectRendererMixin",
     "LayerArmorBaseMixin",
     "RenderItemMixin",
+    "RenderEntityItemMixin",
     "GuiIngameMenuMixin",
     "GuiInGameMixin",
     "GuiMainMenuMixin",
