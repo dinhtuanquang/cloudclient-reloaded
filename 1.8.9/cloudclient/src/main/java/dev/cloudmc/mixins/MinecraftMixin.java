@@ -12,11 +12,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
     
     long lastFrame = Sys.getTime();
+
+    @Shadow private int leftClickCounter;
 
     /**
      Calculates the delta time which is used for Animations
@@ -27,5 +30,12 @@ public abstract class MinecraftMixin {
         int deltaTime = (int) (currentTime - lastFrame);
         lastFrame = currentTime;
         DeltaTime.setDeltaTime(deltaTime);
+    }
+
+    @Inject(method = "clickMouse", at = @At("HEAD"))
+    private void onClickMouse(CallbackInfo ci) {
+        if (dev.cloudmc.Cloud.INSTANCE.optionManager.getOptionByName("Hit Delay Fix").isCheckToggled()) {
+            this.leftClickCounter = 0;
+        }
     }
 }

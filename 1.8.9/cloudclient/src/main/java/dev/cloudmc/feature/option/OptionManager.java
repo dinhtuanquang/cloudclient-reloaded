@@ -31,6 +31,13 @@ public class OptionManager {
 
         addOption(new Option("Performance"));
         addOption(new Option("Rounded Corners", true));
+        addOption(new Option("Hit Delay Fix", true));
+        addOption(new Option("Fast RayTrace", true));
+        addOption(new Option("Fast Collisions", true));
+        addOption(new Option("Fast Entity Movement", true));
+        addOption(new Option("Fast Dropped Items", true));
+        addOption(new Option("Fast Chat", true));
+        addOption(new Option("Fast Skin Loading", true));
 
         addOption(new Option("Controls"));
         addOption(new Option("ModMenu Keybinding", Keyboard.KEY_RSHIFT));
