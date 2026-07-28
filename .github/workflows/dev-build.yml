@@ -1,0 +1,46 @@
+name: Development Build
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    name: Build and Release Development Version
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: 1.8.9/cloudclient
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'gradle'
+          
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Project
+        run: ./gradlew build --no-daemon
+
+      - name: Update Development Release
+        uses: marvinpinto/action-automatic-releases@latest
+        if: github.event_name == 'push'
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest-dev"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            1.8.9/cloudclient/build/libs/*.jar
