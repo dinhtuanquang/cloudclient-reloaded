@@ -40,6 +40,7 @@ public class Panel {
     private boolean anyButtonOpen;
     private int selected = 0;
     private Type selectedType = Type.All;
+    private boolean draggingScrollbar;
 
     public Panel() {
         this.x = ResolutionHelper.getWidth() / 2 - 250;
@@ -232,6 +233,28 @@ public class Panel {
         }
 
         /*
+        Draw Scrollbar
+         */
+        ScrollHelper currentScroll = (selected == 0) ? scrollHelperMods : scrollHelperOptions;
+        int viewY = (selected == 0) ? y + 60 : y + 30;
+        int maxViewHeight = (selected == 0) ? 270 : 300;
+        
+        if (currentScroll.getHeight() > maxViewHeight) {
+            float thumbHeight = Math.max(20, ((float) maxViewHeight / currentScroll.getHeight()) * maxViewHeight);
+            float maxContentScroll = currentScroll.getHeight() - maxViewHeight;
+            float currentContentScroll = -currentScroll.getCalculatedScroll();
+            if (currentContentScroll < 0) currentContentScroll = 0;
+            if (currentContentScroll > maxContentScroll) currentContentScroll = maxContentScroll;
+            float ratio = maxContentScroll > 0 ? currentContentScroll / maxContentScroll : 0;
+            float thumbY = viewY + ratio * (maxViewHeight - thumbHeight);
+            
+            boolean scrollHovered = MathHelper.withinBox(x + w - 10, (int)thumbY, 8, (int)thumbHeight, mouseX, mouseY);
+            
+            Helper2D.drawRoundedRectangle(x + w - 10, viewY, 8, maxViewHeight, 4, Style.getColor(30).getRGB(), roundedCorners ? 0 : -1);
+            Helper2D.drawRoundedRectangle(x + w - 10, (int)thumbY, 8, (int)thumbHeight, 4, Style.getColor(scrollHovered || draggingScrollbar ? 70 : 50).getRGB(), roundedCorners ? 0 : -1);
+        }
+
+        /*
         Draws the sidebar with the mods and settings tab
          */
 
@@ -290,6 +313,22 @@ public class Panel {
             if (MathHelper.withinBox(x + w - 25, y + 5, 20, 20, mouseX, mouseY)) {
                 Cloud.INSTANCE.mc.displayGuiScreen(Cloud.INSTANCE.hudEditor);
             }
+            
+            ScrollHelper currentScroll = (selected == 0) ? scrollHelperMods : scrollHelperOptions;
+            int maxViewHeight = (selected == 0) ? 270 : 300;
+            int viewY = (selected == 0) ? y + 60 : y + 30;
+            if (currentScroll.getHeight() > maxViewHeight) {
+                float thumbHeight = Math.max(20, ((float) maxViewHeight / currentScroll.getHeight()) * maxViewHeight);
+                float maxContentScroll = currentScroll.getHeight() - maxViewHeight;
+                float currentContentScroll = -currentScroll.getCalculatedScroll();
+                float ratio = maxContentScroll > 0 ? currentContentScroll / maxContentScroll : 0;
+                float thumbY = viewY + ratio * (maxViewHeight - thumbHeight);
+                
+                if (MathHelper.withinBox(x + w - 12, (int)thumbY - 2, 12, (int)thumbHeight + 4, mouseX, mouseY)) {
+                    draggingScrollbar = true;
+                    return;
+                }
+            }
         }
 
         if (selected == 0) {
@@ -304,6 +343,7 @@ public class Panel {
     }
 
     public void mouseReleased(int mouseX, int mouseY, int state) {
+        draggingScrollbar = false;
         if (selected == 0) {
             for (Button button : buttonList) {
                 button.mouseReleased(mouseX, mouseY, state);
@@ -344,6 +384,27 @@ public class Panel {
         if (isDragging()) {
             setX(mouseX - offsetX);
             setY(mouseY - offsetY);
+        }
+        
+        if (draggingScrollbar) {
+            ScrollHelper currentScroll = (selected == 0) ? scrollHelperMods : scrollHelperOptions;
+            int maxViewHeight = (selected == 0) ? 270 : 300;
+            int viewY = (selected == 0) ? y + 60 : y + 30;
+            
+            if (currentScroll.getHeight() > maxViewHeight) {
+                float thumbHeight = Math.max(20, ((float) maxViewHeight / currentScroll.getHeight()) * maxViewHeight);
+                float maxContentScroll = currentScroll.getHeight() - maxViewHeight;
+                float maxThumbScroll = maxViewHeight - thumbHeight;
+                
+                float newThumbY = mouseY - thumbHeight / 2f;
+                float ratio = (newThumbY - viewY) / maxThumbScroll;
+                if (ratio < 0) ratio = 0;
+                if (ratio > 1) ratio = 1;
+                
+                float targetContentScroll = ratio * maxContentScroll;
+                currentScroll.setScrollStep((int)(-targetContentScroll / 35));
+                currentScroll.setCalculatedScroll(-targetContentScroll);
+            }
         }
     }
 
