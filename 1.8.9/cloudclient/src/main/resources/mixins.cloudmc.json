@@ -19,7 +19,8 @@
     "MinecraftMixin",
     "ModelBipedMixin",
     "RendererLivingEntityMixin",
-    "RenderMixin"
+    "RenderMixin",
+    "EntityFireballMixin"
   ],
   "mixins": [
     "GuiUtilsMixin",
